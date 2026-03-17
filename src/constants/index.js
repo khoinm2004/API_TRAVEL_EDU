@@ -5,7 +5,7 @@
 export const API_KEYS = {
   // Google Maps & Places API key
   // Lấy từ: console.cloud.google.com > APIs & Services > Credentials
-  GOOGLE_MAPS: 'YOUR_GOOGLE_MAPS_API_KEY',
+  GOOGLE_MAPS: null,
 
   // Gemini AI API key
   // Lấy từ: makersuite.google.com/app/apikey

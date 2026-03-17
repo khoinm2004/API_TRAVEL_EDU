@@ -3,16 +3,16 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import {
-  View, Text, StyleSheet, TouchableOpacity, ActivityIndicator, Platform,
+  View, Text, StyleSheet, TouchableOpacity, ActivityIndicator,
 } from 'react-native';
-import MapView, { Marker, Circle, Callout, PROVIDER_GOOGLE } from 'react-native-maps';
+import MapView, { Marker, Circle, Callout, UrlTile } from 'react-native-maps';
 import { Ionicons } from '@expo/vector-icons';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { useAuth } from '../hooks/useAuth';
 import { getDestinations } from '../services/firestoreService';
 import { getCurrentLocation, watchUserLocation } from '../services/locationService';
-import { COLORS, FONTS, SPACING, RADIUS, API_KEYS } from '../constants';
+import { COLORS, FONTS, SPACING, RADIUS } from '../constants';
 
 const MapScreen = ({ navigation }) => {
   const { userData } = useAuth();
@@ -96,17 +96,24 @@ const MapScreen = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      {/* Map View */}
+      {/* Map View - dùng OpenStreetMap, không cần API key */}
       <MapView
         ref={mapRef}
         style={styles.map}
-        provider={Platform.OS === 'android' ? PROVIDER_GOOGLE : undefined}
         initialRegion={VIETNAM_CENTER}
-        showsUserLocation={true}         // Hiển thị vị trí người dùng
-        showsMyLocationButton={false}    // Ẩn nút mặc định, dùng nút custom
+        showsUserLocation={true}
+        showsMyLocationButton={false}
         showsCompass={true}
-        mapType="standard"
+        mapType="none"  // Tắt tile mặc định để dùng OpenStreetMap
       >
+        {/* OpenStreetMap tile - miễn phí, không cần API key */}
+        <UrlTile
+          urlTemplate="https://tile.openstreetmap.org/{z}/{x}/{y}.png"
+          maximumZ={19}
+          flipY={false}
+          tileSize={256}
+        />
+
         {/* Markers cho từng địa điểm */}
         {destinations.map(dest => {
           const unlocked = isUnlocked(dest.id);

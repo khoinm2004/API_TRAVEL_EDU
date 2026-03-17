@@ -1,0 +1,28 @@
+// firestore.rules
+// Quy tắc bảo mật Firestore - Triển khai lên Firebase Console
+
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // ===== DESTINATIONS COLLECTION =====
+    // Chỉ cho phép đọc nếu đã đăng nhập
+    // Không cho phép người dùng thường ghi vào collection này
+    match /destinations/{destinationId} {
+      allow read: if request.auth != null;
+      allow write: if false; // Chỉ admin mới được ghi qua Firebase Admin SDK
+    }
+
+    // ===== USERS COLLECTION =====
+    // Mỗi người dùng chỉ đọc/ghi được document của chính mình
+    match /users/{userId} {
+      allow read, write: if request.auth != null && request.auth.uid == userId;
+
+      // Đảm bảo dữ liệu hợp lệ khi update
+      allow update: if request.auth.uid == userId
+        && request.resource.data.keys().hasAll(['unlockedLocations', 'totalUnlocked'])
+        && request.resource.data.totalUnlocked is number
+        && request.resource.data.unlockedLocations is list;
+    }
+  }
+}

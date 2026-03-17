@@ -1,0 +1,45 @@
+{
+  "expo": {
+    "name": "EduTravel",
+    "slug": "edutravel",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#0A1628"
+    },
+    "ios": {
+      "supportsTablet": false,
+      "bundleIdentifier": "com.edutravel.app",
+      "infoPlist": {
+        "NSLocationWhenInUseUsageDescription": "EduTravel cần truy cập vị trí để mở khóa các địa điểm du lịch gần bạn.",
+        "NSLocationAlwaysUsageDescription": "EduTravel cần truy cập vị trí để mở khóa các địa điểm du lịch gần bạn."
+      }
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#0A1628"
+      },
+      "package": "com.edutravel.app",
+      "permissions": [
+        "ACCESS_FINE_LOCATION",
+        "ACCESS_COARSE_LOCATION"
+      ]
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "plugins": [
+      [
+        "expo-location",
+        {
+          "locationAlwaysAndWhenInUsePermission": "EduTravel cần vị trí để mở khóa địa điểm du lịch."
+        }
+      ]
+    ]
+  }
+}
